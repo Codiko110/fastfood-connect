@@ -1,0 +1,168 @@
+@import 'tailwindcss';
+@import 'leaflet/dist/leaflet.css';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-primary: #b7131a;
+    --color-primary-container: #db322f;
+    --color-on-primary: #ffffff;
+    --color-on-primary-container: #ffffff;
+    --color-primary-fixed: #ffdad6;
+    --color-primary-fixed-dim: #db322f;
+    --color-on-primary-fixed: #3f0003;
+
+    --color-secondary: #785900;
+    --color-secondary-container: #fdc003;
+    --color-on-secondary: #ffffff;
+    --color-on-secondary-container: #ffffff;
+    --color-secondary-fixed: #ffddb4;
+    --color-secondary-fixed-dim: #fabd00;
+    --color-on-secondary-fixed: #2c1800;
+
+    --color-tertiary: #5c5c5c;
+    --color-tertiary-container: #e0e0e0;
+    --color-on-tertiary: #ffffff;
+    --color-on-tertiary-container: #1a1c1c;
+
+    --color-background: #f9f9f9;
+    --color-on-background: #1a1c1c;
+
+    --color-surface: #f9f9f9;
+    --color-on-surface: #1a1c1c;
+    --color-surface-dim: #d9d9d9;
+    --color-surface-bright: #f9f9f9;
+    --color-surface-container-lowest: #ffffff;
+    --color-surface-container-low: #f3f3f3;
+    --color-surface-container: #e8e8e8;
+    --color-surface-container-high: #ddd;
+    --color-on-surface-variant: #5b403d;
+
+    --color-error: #ba1a1a;
+    --color-error-container: #ffdad6;
+    --color-on-error: #ffffff;
+    --color-on-error-container: #410003;
+
+    --color-outline: #906f6c;
+    --color-outline-variant: #e4beb9;
+
+    --radius-xl: 0.75rem;
+    --radius-2xl: 1rem;
+
+    --font-headline-lg: 32px;
+    --font-title-md: 20px;
+    --font-body-md: 16px;
+    --font-body-lg: 18px;
+    --font-label-sm: 14px;
+    --font-display-lg: 48px;
+
+    --shadow-card: 0px 4px 20px rgba(33, 33, 33, 0.08);
+    --shadow-card-hover: 0px 8px 30px rgba(33, 33, 33, 0.12);
+    --shadow-primary-glow: 0px 4px 15px rgba(229, 57, 53, 0.3);
+}
+
+@layer base {
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-background text-on-surface antialiased;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        min-height: 100dvh;
+    }
+
+    ::selection {
+        background-color: rgba(183, 19, 26, 0.2);
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: var(--color-outline-variant);
+        border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: var(--color-outline);
+    }
+
+    .glass-card {
+        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    .glass-header {
+        backdrop-filter: blur(12px);
+        background: rgba(249, 249, 249, 0.8);
+    }
+
+    .card-shadow {
+        box-shadow: 0px 4px 20px rgba(33, 33, 33, 0.08);
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .card-shadow:hover {
+        box-shadow: 0px 8px 30px rgba(33, 33, 33, 0.12);
+    }
+
+    .primary-glow {
+        box-shadow: 0px 4px 15px rgba(229, 57, 53, 0.3);
+    }
+
+    .status-free { border-top: 4px solid #22c55e; }
+    .status-occupied { border-top: 4px solid #b7131a; }
+    .status-ordering { border-top: 4px solid #fdc003; }
+
+    .animate-pulse-soft {
+        animation: pulse-soft 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-soft {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.7; transform: scale(1.05); }
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .animate-float {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes slideUp {
+        from { transform: translateY(100%); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .toast-entrance {
+        animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .bg-mesh {
+        background-image: radial-gradient(ellipse at top left, rgba(183, 19, 26, 0.05) 0%, transparent 50%),
+                          radial-gradient(ellipse at bottom right, rgba(253, 192, 3, 0.05) 0%, transparent 50%);
+    }
+}

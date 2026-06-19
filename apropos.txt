@@ -1,0 +1,127 @@
+========================================
+  ANALYSE DU PROJET : FASTFOOD CONNECT
+========================================
+
+📌 DESCRIPTION
+FastFood Connect est une application web complète de gestion de
+restauration rapide avec 3 interfaces interconnectées :
+- Client (commande en ligne livraison/emporter)
+- Table (kiosque de commande sur place)
+- Admin (tableau de bord de gestion)
+
+Les commandes sont synchronisées en temps réel entre ces 3 bornes.
+
+========================================
+1. TECHNOLOGIES UTILISÉES
+========================================
+
+Backend :
+  - PHP 8.3
+  - Laravel 13 (framework MVC)
+  - Laravel Reverb (WebSocket temps réel)
+  - SQLite (base de données)
+  - Queue database (file d'attente jobs)
+
+Frontend :
+  - Alpine.js 3 (réactivité JavaScript légère)
+  - Tailwind CSS 4 (stylisation utilitaire)
+  - Laravel Echo + Pusher JS (client WebSocket)
+  - Leaflet.js (cartes géolocalisation livraison)
+  - Heroicons (icônes SVG)
+  - Vite (bundler/build)
+
+Outils & Infra :
+  - Composer (dépendances PHP)
+  - npm (dépendances JS)
+  - Laravel Pint (formatteur)
+  - PHPUnit (tests)
+  - Concurrently (5 processus en dev simultanés)
+
+========================================
+2. FONCTIONNALITÉS PRINCIPALES
+========================================
+
+👤 INTERFACE CLIENT (FastFood en ligne)
+  - Navigation menu avec catégories
+  - Détail produit avec suppléments/extras
+  - Panier (ajout/modif/suppression)
+  - Commande livraison (adresse + géolocalisation)
+  - Commande emporter (takeaway)
+  - Paiement (enregistrement méthode)
+  - Suivi commande en temps réel (statuts)
+  - Historique commandes + re-commander
+  - Application code promo
+  - Inscription newsletter
+  - Profil utilisateur
+
+🍽️ INTERFACE TABLE (Kiosque sur place)
+  - Sélection table (identité)
+  - Menu complet avec catégories
+  - Panier + commande depuis la table
+  - Suivi commande en direct
+  - Appel serveur (service request)
+  - Demander l'addition
+  - Feedback / avis
+  - Historique de la table
+
+⚙️ INTERFACE ADMIN (Gestion)
+  - Tableau de bord avec statistiques (CA, panier moyen, top produits)
+  - Gestion commandes (liste, détail, changement statut)
+  - Gestion menu (CRUD produits + toggle dispo)
+  - Gestion catégories (CRUD)
+  - Gestion tables (CRUD + statut occupé/libre)
+  - Gestion livraisons (assigner livreur + statut)
+  - Statistiques détaillées avec suivi CA manuel
+  - Paramètres restaurant
+
+🔄 TEMPS RÉEL
+  - Mise à jour live des commandes (nouvelle → confirmée → préparation → prête → livrée)
+  - Notifications push via WebSocket (Laravel Reverb)
+  - Stats dashboard mises à jour automatiquement
+  - Changements menu répercutés instantanément
+  - Requêtes service (appel serveur) en temps réel
+
+========================================
+3. DÉFIS TECHNIQUES
+========================================
+
+1. 🌐 SYNCHRONISATION TEMPS RÉEL 3 VOIES
+   Synchroniser l'état des commandes simultanément sur
+   3 interfaces différentes (client, table, admin) via
+   WebSockets Laravel Reverb + polling fallback Alpine.js.
+
+2. 🛒 SYSTÈME PANIER MULTI-CONTEXTE
+   Un seul panier qui fonctionne pour 3 modes :
+   - Session (visiteur non connecté)
+   - Utilisateur (client connecté)
+   - Table (kiosque sur place)
+   Gérer les collisions et la persistance.
+
+3. ⏳ WORKFLOW STATUT COMMANDE
+   Chaîne de 6 statuts (pending → confirmed → preparing
+   → ready → delivered → cancelled) avec priorités,
+   timeline d'horodatage, et validation des transitions.
+
+4. 📍 GÉOLOCALISATION LIVRAISON
+   Capture latitude/longitude client, affichage Leaflet,
+   assignation livreur, suivi tournée.
+
+5. 🔊 BROADCASTING FIABLE
+   Envoyer événements Reverb de façon robuste avec
+   gestion d'erreurs (broadcastSafe), 5 channels WebSocket
+   distincts (orders, table.*, tables, deliveries, menu).
+
+6. ⚡ ENVIRONNEMENT DE DÉVELOPPEMENT CONCURRENT
+   5 processus simultanés (serveur HTTP + queue + logs
+   + Vite HMR + Reverb) orchestrés via Concurrently.
+
+7. 💾 PERSISTANCE LOCALSTORAGE + BDD
+   Synchronisation commandes client entre localStorage
+   (navigation) et base de données (historique serveur).
+
+8. 🧩 ARCHITECTURE MODULAIRE
+   6 Services (Cart, Order, Delivery, Menu, Table,
+   Statistics), 6 Events, Contrôleurs séparés par
+   domaine (Client/Admin/Table/Api/Auth).
+
+========================================
