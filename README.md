@@ -54,7 +54,7 @@ Prices stored in EUR internally, displayed in **MGA (Malagasy Ariary)** at a rat
 | Layer       | Technology                                  |
 |-------------|---------------------------------------------|
 | Backend     | PHP 8.3, Laravel 13                         |
-| Database    | SQLite                                      |
+| Database    | PostgreSQL                                      |
 | WebSocket   | Laravel Reverb                              |
 | Frontend    | Alpine.js, Tailwind CSS 4, Laravel Echo     |
 | Maps        | Leaflet.js                                  |
