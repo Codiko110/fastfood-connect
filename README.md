@@ -1,58 +1,148 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<picture align="center">
+  <source srcset="https://socialify.git.ci/user/fastfood-connect/image?description=1&font=Inter&forks=1&issues=1&language=1&name=1&owner=1&pattern=Solid&pulls=1&stargazers=1&theme=Dark" />
+  <img alt="FastFood Connect banner" />
+</picture>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# 🍔 FastFood Connect — FlashFood
 
-## About Laravel
+**FastFood Connect** (branded as **FlashFood**) is a full-stack restaurant management system with three integrated interfaces: **Customer online ordering**, **Table kiosk ordering**, and an **Admin management dashboard**. Orders sync in real-time across all interfaces via WebSockets.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🧑‍🍳 Customer Interface
+- Browse menu by categories with search and sorting
+- Product detail page with extras/supplements
+- Shopping cart with quantity management
+- Checkout with delivery geolocation and promo codes
+- Real-time order tracking (WebSocket + polling fallback)
+- Order history and re-ordering
+- Newsletter subscription
 
-## Learning Laravel
+### 🪟 Table Kiosk Interface
+- Table selection and session management
+- On-site menu browsing and ordering
+- Real-time order status tracking
+- Service requests: call waiter, request water, ask for assistance
+- Request bill and submit feedback
+- Order history per session
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### ⚙️ Admin Dashboard
+- Overview stats: revenue, orders count, weekly sales chart
+- Order management with status workflow (pending → confirmed → preparing → ready → delivered)
+- Menu CRUD with categories, extras, and toggle availability
+- Category management with product count
+- Table management with status (free / occupied / ordering)
+- Delivery assignment and tracking
+- Statistics: revenue analytics, average basket, prep time, top products, category breakdown
+- Manual revenue logging (income / expense)
+- Settings panel
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 🔄 Real-Time
+- **WebSocket channels** (via Laravel Reverb): `orders`, `table.{id}`, `tables`, `deliveries`, `menu`
+- **6 broadcast events**: order status, table status, service requests, delivery status, menu updates
+- **Polling fallback** — functions seamlessly even without WebSocket server running
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### 💰 Multi-Currency
+Prices stored in EUR internally, displayed in **MGA (Malagasy Ariary)** at a rate of 5,000 Ar/EUR.
 
-## Agentic Development
+---
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## 🛠️ Tech Stack
+
+| Layer       | Technology                                  |
+|-------------|---------------------------------------------|
+| Backend     | PHP 8.3, Laravel 13                         |
+| Database    | SQLite                                      |
+| WebSocket   | Laravel Reverb                              |
+| Frontend    | Alpine.js, Tailwind CSS 4, Laravel Echo     |
+| Maps        | Leaflet.js                                  |
+| Icons       | Heroicons                                   |
+| Build       | Vite, npm                                   |
+
+---
+
+## ⚡ Getting Started
+
+### Prerequisites
+- PHP ^8.3 + [Composer](https://getcomposer.org)
+- Node.js + npm
+
+### Installation
 
 ```bash
-composer require laravel/boost --dev
+# Clone the repository
+git clone <repository-url>
+cd fastfood-connect
 
-php artisan boost:install
+# Install dependencies & set up the project
+composer run setup
+
+# Or manually:
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+npm install && npm run build
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Development
 
-## Contributing
+Run all dev processes concurrently (HTTP server, queue, logs, Vite HMR, Reverb):
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+composer run dev
+```
 
-## Code of Conduct
+Or serve on your local network:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+composer run serve:network
+```
 
-## Security Vulnerabilities
+### Testing
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+composer run test
+```
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🗺️ Project Structure
+
+```
+├── app/
+│   ├── Events/          # 6 real-time broadcast events
+│   ├── Http/Controllers # 5 controllers (Admin, Auth, Client, Table, API)
+│   ├── Http/Requests/   # 8 form request validations
+│   ├── Models/          # 13 Eloquent models
+│   └── Services/        # 6 service classes (business logic)
+├── resources/views/     # Blade templates (30+ views)
+│   ├── admin/           # 10 admin dashboard views
+│   ├── client/          # 12 customer interface views
+│   └── table/           # 8 table kiosk views
+├── routes/
+│   ├── web.php          # All HTTP routes
+│   └── channels.php     # 5 WebSocket channels
+├── database/migrations/ # 19 migration files
+└── tests/               # Unit & Feature tests
+```
+
+---
+
+## 📡 Event System
+
+| Event                     | Channel              | Description                    |
+|---------------------------|----------------------|--------------------------------|
+| `OrderStatusUpdated       | orders               | Order status changed           |
+| `TableStatusUpdated       | tables, table.{id}   | Table became free/occupied     |
+| `ServiceRequestCreated    | table.{id}           | Customer requested assistance  |
+| `DeliveryStatusUpdated    | deliveries           | Delivery status changed        |
+| `MenuProductUpdated       | menu                 | Product added/updated/deleted  |
+| `MenuCategoryUpdated      | menu                 | Category added/updated/deleted |
+
+---
+
+## 🐞 Known Issues
+
+- Order tracking page shows "No tracking available" for delivered orders in admin and table interfaces.
